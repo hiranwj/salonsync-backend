@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/salonsync")
+@RequestMapping(value = "/api/v1/auth")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping(value = "/customerData")
+    @PostMapping(value = "/customerData/signup")
     public ResponseEntity<Object> insertCustomerData(@Valid @RequestBody CustomerDto userDto) {
         ResponseEntity<Object> res = customerService.insertCustomerData(userDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
