@@ -14,5 +14,4 @@ public class CustomerDto {
     private String contactNumber;
     private String username;
     private String password;
-    private Integer createdBy;
 }

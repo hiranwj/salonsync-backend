@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface CustomerService {
     ResponseEntity<Object> insertCustomerData(CustomerDto customerDto);
+
+    ResponseEntity<Object> loginCustomerData(CustomerDto customerDto);
 }

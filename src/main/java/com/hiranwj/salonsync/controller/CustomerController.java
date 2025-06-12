@@ -24,4 +24,10 @@ public class CustomerController {
         ResponseEntity<Object> res = customerService.insertCustomerData(userDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
+
+    @PostMapping(value = "/customerData/login")
+    public ResponseEntity<Object> loginCustomerData(@Valid @RequestBody CustomerDto customerDto) {
+        ResponseEntity<Object> res = customerService.loginCustomerData(customerDto);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
 }
