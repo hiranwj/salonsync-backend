@@ -6,10 +6,7 @@ import com.hiranwj.salonsync.service.StylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,6 +21,12 @@ public class StylistController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> insertStylistData(@Valid @RequestBody StylistDto stylistDto) {
         ResponseEntity<Object> res = stylistService.insertStylistData(stylistDto);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
+    @GetMapping(value = "/stylistData")
+    public ResponseEntity<Object> getAllStylists() {
+        ResponseEntity<Object> res = stylistService.getAllStylists();
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 }

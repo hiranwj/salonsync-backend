@@ -2,6 +2,7 @@ package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.StylistDto;
 import com.hiranwj.salonsync.model.Stylist;
+import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.repository.StylistRepository;
 import com.hiranwj.salonsync.service.StylistService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -43,4 +46,34 @@ public class StylistServiceImpl implements StylistService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity<Object> getAllStylists() {
+        try {
+            List<Stylist> stylistList = stylistRepository.findAll();
+
+            if (stylistList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stylists found.");
+            }
+
+            List<StylistDto> stylistDtoList = stylistList.stream()
+                    .map(stylist -> new StylistDto(
+                            stylist.getFirstName(),
+                            stylist.getLastName(),
+                            stylist.getSpecialization(),
+                            stylist.getContactNumber(),
+                            stylist.getEmail(),
+                            stylist.getCreatedAt()
+                    ))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(stylistDtoList);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

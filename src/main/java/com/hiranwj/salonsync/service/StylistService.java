@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface StylistService {
     ResponseEntity<Object> insertStylistData(StylistDto stylistDto);
+
+    ResponseEntity<Object> getAllStylists();
 }
