@@ -1,11 +1,13 @@
 package com.hiranwj.salonsync.model.util;
 import com.hiranwj.salonsync.model.Admin;
 
+import com.hiranwj.salonsync.model.Customer;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -40,6 +42,17 @@ public class JwtUtil {
                 .compact();
     }
 
+    public String generateTokenForCustomer(Customer customer) {
+        return Jwts.builder()
+                .setSubject(customer.getUsername())
+                .claim("contactNumber", customer.getContactNumber())
+                .claim("role", "CUSTOMER")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     // Extract username from token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -65,6 +78,12 @@ public class JwtUtil {
     public boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
+    }
+
+    // 3. Validate token
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     // Parse token

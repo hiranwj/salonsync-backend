@@ -47,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
             admin.setContactNumber(adminDto.getContactNumber());
             admin.setCreatedAt((int) (System.currentTimeMillis() / 1000));
             adminRepository.save(admin);
-            return ResponseEntity.status(HttpStatus.OK).body("Admin saved successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Admin saved successfully");
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
