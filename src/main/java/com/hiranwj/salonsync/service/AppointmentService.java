@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface AppointmentService {
     ResponseEntity<Object> bookAppointment(AppointmentDto appointmentDto);
+
+    ResponseEntity<Object> getAllAppointments();
 }

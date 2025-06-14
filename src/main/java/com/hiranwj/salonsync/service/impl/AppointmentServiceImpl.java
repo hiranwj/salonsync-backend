@@ -1,6 +1,7 @@
 package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.AppointmentDto;
+import com.hiranwj.salonsync.dto.AppointmentDtoResponse;
 import com.hiranwj.salonsync.model.Appointment;
 import com.hiranwj.salonsync.repository.AppointmentRepository;
 import com.hiranwj.salonsync.service.AppointmentService;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -47,6 +51,37 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentRepository.save(appointment);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Appointment booked successfully.");
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> getAllAppointments() {
+        try {
+            List<Appointment> appointmentList = appointmentRepository.findAll();
+
+            if (appointmentList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No appointments found.");
+            }
+
+            List<AppointmentDtoResponse> appointmentDtoList = appointmentList.stream()
+                    .map(appointment -> new AppointmentDtoResponse(
+                            appointment.getId(),
+                            appointment.getCustomerName(),
+                            appointment.getContactNumber(),
+                            appointment.getServiceType(),
+                            appointment.getAppointmentDate(),
+                            appointment.getAppointmentTime(),
+                            appointment.getStylistId(),
+                            appointment.getCreatedBy(),
+                            appointment.getCreatedAt()
+                    ))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(appointmentDtoList);
 
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());
