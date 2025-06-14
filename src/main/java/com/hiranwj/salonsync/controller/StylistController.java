@@ -29,4 +29,10 @@ public class StylistController {
         ResponseEntity<Object> res = stylistService.getAllStylists();
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
+
+    @GetMapping(value = "/stylist")
+    public ResponseEntity<Object> getStylistById(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = stylistService.getStylistById(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
 }
