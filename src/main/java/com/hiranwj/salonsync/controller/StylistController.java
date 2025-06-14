@@ -35,4 +35,11 @@ public class StylistController {
         ResponseEntity<Object> res = stylistService.getStylistById(id);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
+
+    @PutMapping(value = "/stylist")
+    public ResponseEntity<Object> updateStylistById(@Valid @RequestParam("id") Integer id, @RequestBody StylistDto stylistDto) {
+        ResponseEntity<Object> res = stylistService.updateStylistById(id, stylistDto);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
 }

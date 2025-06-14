@@ -9,4 +9,6 @@ public interface StylistService {
     ResponseEntity<Object> getAllStylists();
 
     ResponseEntity<Object> getStylistById(Integer id);
+
+    ResponseEntity<Object> updateStylistById(Integer id, StylistDto stylistDto);
 }

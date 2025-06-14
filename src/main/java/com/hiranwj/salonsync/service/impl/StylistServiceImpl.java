@@ -102,5 +102,42 @@ public class StylistServiceImpl implements StylistService {
         }
     }
 
+    @Override
+    public ResponseEntity<Object> updateStylistById(Integer id, StylistDto stylistDto) {
+        try {
+            Optional<Stylist> optionalStylist = stylistRepository.findById(id);
+
+            if (!optionalStylist.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Stylist not found with ID: " + id);
+            }
+
+            Stylist existingStylist = optionalStylist.get();
+
+            // Update stylist details except createdAt (createdBy in DTO)
+            existingStylist.setFirstName(stylistDto.getFirstName());
+            existingStylist.setLastName(stylistDto.getLastName());
+            existingStylist.setSpecialization(stylistDto.getSpecialization());
+            existingStylist.setContactNumber(stylistDto.getContactNumber());
+            existingStylist.setEmail(stylistDto.getEmail());
+
+            stylistRepository.save(existingStylist);
+
+            StylistDto updatedStylistDto = new StylistDto(
+                    existingStylist.getFirstName(),
+                    existingStylist.getLastName(),
+                    existingStylist.getSpecialization(),
+                    existingStylist.getContactNumber(),
+                    existingStylist.getEmail(),
+                    existingStylist.getCreatedAt() // This will return the originally createdBy value
+            );
+
+            return ResponseEntity.status(HttpStatus.OK).body(updatedStylistDto);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
