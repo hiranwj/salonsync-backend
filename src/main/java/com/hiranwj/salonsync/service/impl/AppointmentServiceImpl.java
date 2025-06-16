@@ -2,6 +2,7 @@ package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.AppointmentDto;
 import com.hiranwj.salonsync.dto.AppointmentDtoResponse;
+import com.hiranwj.salonsync.dto.AppointmentStatusDto;
 import com.hiranwj.salonsync.model.Appointment;
 import com.hiranwj.salonsync.repository.AppointmentRepository;
 import com.hiranwj.salonsync.service.AppointmentService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -82,6 +84,28 @@ public class AppointmentServiceImpl implements AppointmentService {
                     .collect(Collectors.toList());
 
             return ResponseEntity.status(HttpStatus.OK).body(appointmentDtoList);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> updateAppointmentStatus(Integer id, AppointmentStatusDto statusDto) {
+        try {
+            Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+
+            if (!optionalAppointment.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment not found.");
+            }
+
+            Appointment appointment = optionalAppointment.get();
+            appointment.setStatus(statusDto.getStatus());
+
+            appointmentRepository.save(appointment);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Appointment status updated successfully.");
 
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());
