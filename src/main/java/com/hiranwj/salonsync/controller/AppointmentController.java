@@ -34,4 +34,11 @@ public class AppointmentController {
         ResponseEntity<Object> res = appointmentService.updateAppointmentStatus(id, statusDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
+
+    @DeleteMapping(value = "/appointment")
+    public ResponseEntity<Object> deleteAppointment(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = appointmentService.deleteAppointment(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
 }

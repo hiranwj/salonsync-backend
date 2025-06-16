@@ -112,4 +112,23 @@ public class AppointmentServiceImpl implements AppointmentService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity<Object> deleteAppointment(Integer id) {
+        try {
+            Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+
+            if (!optionalAppointment.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment not found.");
+            }
+
+            appointmentRepository.deleteById(id);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Appointment deleted successfully.");
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

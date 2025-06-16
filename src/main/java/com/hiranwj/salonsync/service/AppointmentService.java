@@ -10,4 +10,6 @@ public interface AppointmentService {
     ResponseEntity<Object> getAllAppointments();
 
     ResponseEntity<Object> updateAppointmentStatus(Integer id, AppointmentStatusDto statusDto);
+
+    ResponseEntity<Object> deleteAppointment(Integer id);
 }
