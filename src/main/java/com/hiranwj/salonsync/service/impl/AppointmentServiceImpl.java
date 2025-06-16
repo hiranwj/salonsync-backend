@@ -131,4 +131,35 @@ public class AppointmentServiceImpl implements AppointmentService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity<Object> getAppointmentsByUserId(Integer id) {
+        try {
+            List<Appointment> appointmentList = appointmentRepository.findByCreatedBy(id);
+
+            if (appointmentList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No appointments found for the user.");
+            }
+
+            List<AppointmentDtoResponse> appointmentDtoList = appointmentList.stream()
+                    .map(appointment -> new AppointmentDtoResponse(
+                            appointment.getId(),
+                            appointment.getCustomerName(),
+                            appointment.getContactNumber(),
+                            appointment.getServiceType(),
+                            appointment.getAppointmentDate(),
+                            appointment.getAppointmentTime(),
+                            appointment.getStylistId(),
+                            appointment.getCreatedBy(),
+                            appointment.getCreatedAt()
+                    ))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(appointmentDtoList);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

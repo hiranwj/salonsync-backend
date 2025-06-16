@@ -41,4 +41,11 @@ public class AppointmentController {
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
+    @GetMapping(value = "/appointments/user")
+    public ResponseEntity<Object> getAppointmentsByUserId(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = appointmentService.getAppointmentsByUserId(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
+
 }
