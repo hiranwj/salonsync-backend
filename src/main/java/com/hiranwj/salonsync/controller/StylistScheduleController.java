@@ -28,4 +28,11 @@ public class StylistScheduleController {
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
+    @DeleteMapping(value = "/schedule")
+    public ResponseEntity<Object> deleteSchedule(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = scheduleService.deleteSchedule(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
+
 }

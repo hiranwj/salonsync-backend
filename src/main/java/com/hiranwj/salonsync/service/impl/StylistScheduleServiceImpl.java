@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,6 +61,25 @@ public class StylistScheduleServiceImpl implements StylistScheduleService {
                     .collect(Collectors.toList());
 
             return ResponseEntity.status(HttpStatus.OK).body(scheduleDtoList);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteSchedule(Integer id) {
+        try {
+            Optional<StylistSchedule> optionalSchedule = scheduleRepository.findById(id);
+
+            if (!optionalSchedule.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schedule slot not found.");
+            }
+
+            scheduleRepository.deleteById(id);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Schedule slot deleted successfully.");
 
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());
