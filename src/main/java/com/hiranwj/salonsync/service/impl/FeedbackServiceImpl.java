@@ -65,4 +65,30 @@ public class FeedbackServiceImpl implements FeedbackService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity<Object> getAllFeedbacks() {
+        try {
+            List<Feedback> feedbackList = feedbackRepository.findAll();
+
+            if (feedbackList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No feedbacks found.");
+            }
+
+            List<FeedbackDto> feedbackDtoList = feedbackList.stream()
+                    .map(feedback -> new FeedbackDto(
+                            feedback.getStylistId(),
+                            feedback.getFeedbackText(),
+                            feedback.getRating(),
+                            feedback.getCreatedBy()
+                    ))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(feedbackDtoList);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,13 @@ public class FeedbackController {
     @GetMapping(value = "/feedback/stylist")
     public ResponseEntity<Object> getFeedbacksByStylistId(@Valid @RequestParam("id") Integer id) {
         ResponseEntity<Object> res = feedbackService.getFeedbacksByStylistId(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
+    @GetMapping(value = "/feedbacksData")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Object> getAllFeedbacks() {
+        ResponseEntity<Object> res = feedbackService.getAllFeedbacks();
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 

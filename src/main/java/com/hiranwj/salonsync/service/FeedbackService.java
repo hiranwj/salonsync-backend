@@ -7,4 +7,6 @@ public interface FeedbackService {
     ResponseEntity<Object> submitFeedback(FeedbackDto feedbackDto);
 
     ResponseEntity<Object> getFeedbacksByStylistId(Integer id);
+
+    ResponseEntity<Object> getAllFeedbacks();
 }

@@ -80,6 +80,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/appointments/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/schedule/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/feedback/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/feedbacksData", "GET")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylistData", "POST")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylistData", "GET")).permitAll()
                         .anyRequest().authenticated()
