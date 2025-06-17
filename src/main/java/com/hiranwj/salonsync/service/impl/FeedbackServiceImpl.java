@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 public class FeedbackServiceImpl implements FeedbackService {
@@ -30,6 +33,32 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedbackRepository.save(feedback);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Feedback submitted successfully.");
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> getFeedbacksByStylistId(Integer stylistId) {
+        try {
+            List<Feedback> feedbackList = feedbackRepository.findByStylistId(stylistId);
+
+            if (feedbackList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No feedback found for this stylist.");
+            }
+
+            List<FeedbackDto> feedbackDtoList = feedbackList.stream()
+                    .map(feedback -> new FeedbackDto(
+                            feedback.getStylistId(),
+                            feedback.getFeedbackText(),
+                            feedback.getRating(),
+                            feedback.getCreatedBy()
+                    ))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(feedbackDtoList);
 
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());

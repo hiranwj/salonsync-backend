@@ -5,10 +5,7 @@ import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,4 +21,11 @@ public class FeedbackController {
         ResponseEntity<Object> res = feedbackService.submitFeedback(feedbackDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
+
+    @GetMapping(value = "/feedback/stylist")
+    public ResponseEntity<Object> getFeedbacksByStylistId(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = feedbackService.getFeedbacksByStylistId(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
 }

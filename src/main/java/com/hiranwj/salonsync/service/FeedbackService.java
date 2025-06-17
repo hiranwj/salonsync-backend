@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface FeedbackService {
     ResponseEntity<Object> submitFeedback(FeedbackDto feedbackDto);
+
+    ResponseEntity<Object> getFeedbacksByStylistId(Integer id);
 }
