@@ -5,10 +5,7 @@ import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.service.StylistScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,4 +21,11 @@ public class StylistScheduleController {
         ResponseEntity<Object> res = scheduleService.addSchedule(scheduleDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
+
+    @GetMapping(value = "/schedule/stylist")
+    public ResponseEntity<Object> getSchedulesByStylistId(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = scheduleService.getSchedulesByStylistId(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
 }

@@ -78,7 +78,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylist")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/appointment")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/appointments/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/schedule")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/schedule/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylistData", "POST")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylistData", "GET")).permitAll()
                         .anyRequest().authenticated()

@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface StylistScheduleService {
     ResponseEntity<Object> addSchedule(StylistScheduleDto scheduleDto);
+
+    ResponseEntity<Object> getSchedulesByStylistId(Integer id);
 }
