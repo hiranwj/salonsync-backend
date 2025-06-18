@@ -1,0 +1,37 @@
+package com.hiranwj.salonsync.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "user")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotBlank(message = "Name is mandatory")
+    private String name;
+
+    @Email(message = "Invalid email format")
+    private String email;
+
+    @NotBlank(message = "Password is mandatory")
+    private String password;
+
+    @NotBlank(message = "Role is mandatory")
+    private String role; // Example: ADMIN, STAFF, USER
+
+    private String contactNumber;
+
+    private Integer createdAt;
+}
