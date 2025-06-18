@@ -38,6 +38,5 @@ public class Appointment {
 
     private Integer createdAt;
 
-    @NotBlank(message = "Status is mandatory")
     private String status; // Example values: "confirmed", "cancelled", "pending"
 }

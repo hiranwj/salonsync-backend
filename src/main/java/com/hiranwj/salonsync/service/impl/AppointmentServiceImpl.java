@@ -46,7 +46,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setServiceType(appointmentDto.getServiceType());
             appointment.setAppointmentDate(appointmentDto.getAppointmentDate());
             appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
-            appointment.setStylistId(appointmentDto.getStylistId()); // Set stylist
+            appointment.setStylistId(appointmentDto.getStylistId());
             appointment.setCreatedBy(appointmentDto.getCreatedBy());
             appointment.setCreatedAt((int) (System.currentTimeMillis() / 1000));
 

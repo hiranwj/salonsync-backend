@@ -1,6 +1,6 @@
 package com.hiranwj.salonsync.controller;
 
-import com.hiranwj.salonsync.dto.CustomerDto;
+import com.hiranwj.salonsync.dto.UserDto;
 import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +20,14 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping(value = "/customerData/signup")
-    public ResponseEntity<Object> insertCustomerData(@Valid @RequestBody CustomerDto userDto) {
+    public ResponseEntity<Object> insertCustomerData(@Valid @RequestBody UserDto userDto) {
         ResponseEntity<Object> res = customerService.insertCustomerData(userDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
     @PostMapping(value = "/customerData/login")
-    public ResponseEntity<Object> loginCustomerData(@Valid @RequestBody CustomerDto customerDto) {
-        ResponseEntity<Object> res = customerService.loginCustomerData(customerDto);
+    public ResponseEntity<Object> loginCustomerData(@Valid @RequestBody UserDto userDto) {
+        ResponseEntity<Object> res = customerService.loginCustomerData(userDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 }

@@ -1,6 +1,6 @@
 package com.hiranwj.salonsync.controller;
 
-import com.hiranwj.salonsync.dto.AdminDto;
+import com.hiranwj.salonsync.dto.UserDto;
 import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping(value = "/adminData/signup")
-    public ResponseEntity<Object> insertAdminData(@Valid @RequestBody AdminDto adminDto) {
-        ResponseEntity<Object> res = adminService.insertAdminData(adminDto);
+    public ResponseEntity<Object> insertAdminData(@Valid @RequestBody UserDto userDto) {
+        ResponseEntity<Object> res = adminService.insertAdminData(userDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
     @PostMapping(value = "/adminData/login")
-    public ResponseEntity<Object> loginAdminData(@Valid @RequestBody AdminDto adminDto) {
-        ResponseEntity<Object> res = adminService.loginAdminData(adminDto);
+    public ResponseEntity<Object> loginAdminData(@Valid @RequestBody UserDto userDto) {
+        ResponseEntity<Object> res = adminService.loginAdminData(userDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 }

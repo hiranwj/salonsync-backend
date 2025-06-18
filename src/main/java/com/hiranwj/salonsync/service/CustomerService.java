@@ -1,10 +1,10 @@
 package com.hiranwj.salonsync.service;
 
-import com.hiranwj.salonsync.dto.CustomerDto;
+import com.hiranwj.salonsync.dto.UserDto;
 import org.springframework.http.ResponseEntity;
 
 public interface CustomerService {
-    ResponseEntity<Object> insertCustomerData(CustomerDto customerDto);
+    ResponseEntity<Object> insertCustomerData(UserDto userDto);
 
-    ResponseEntity<Object> loginCustomerData(CustomerDto customerDto);
+    ResponseEntity<Object> loginCustomerData(UserDto userDto);
 }

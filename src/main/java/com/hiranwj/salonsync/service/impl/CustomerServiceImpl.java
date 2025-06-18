@@ -1,9 +1,9 @@
 package com.hiranwj.salonsync.service.impl;
 
-import com.hiranwj.salonsync.dto.CustomerDto;
-import com.hiranwj.salonsync.model.Customer;
+import com.hiranwj.salonsync.dto.UserDto;
+import com.hiranwj.salonsync.model.User;
 import com.hiranwj.salonsync.model.util.JwtUtil;
-import com.hiranwj.salonsync.repository.CustomerRepository;
+import com.hiranwj.salonsync.repository.UserRepository;
 import com.hiranwj.salonsync.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,21 +30,20 @@ public class CustomerServiceImpl implements CustomerService {
     private JwtUtil jwtUtil;
 
     @Override
-    public ResponseEntity<Object> insertCustomerData(CustomerDto customerDto) {
+    public ResponseEntity<Object> insertCustomerData(UserDto userDto) {
         try {
-            Optional<Customer> existingCustomer = customerRepository.findByNicNumber(customerDto.getNicNumber());
+            Optional<User> existingCustomer = userRepository.findByContactNumber(userDto.getContactNumber());
             if (existingCustomer.isPresent()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Customer with this NIC number already exists.");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Customer with this contact number already exists.");
             }
-            Customer customer = new Customer();
-            customer.setFirstName(customerDto.getFirstName());
-            customer.setLastName(customerDto.getLastName());
-            customer.setNicNumber(customerDto.getNicNumber());
-            customer.setContactNumber(customerDto.getContactNumber());
-            customer.setUsername(customerDto.getUsername());
-            customer.setPassword(passwordEncoder.encode(customerDto.getPassword()));
-            customer.setCreatedAt((int) (System.currentTimeMillis() / 1000));
-            customerRepository.save(customer);
+            User user = new User();
+            user.setName(userDto.getName());
+            user.setEmail(userDto.getEmail());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setRole(userDto.getRole());
+            user.setContactNumber(userDto.getContactNumber());
+            user.setCreatedAt((int) (System.currentTimeMillis() / 1000));
+            userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("Customer saved successfully");
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());
@@ -53,28 +52,28 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseEntity<Object> loginCustomerData(CustomerDto customerDto) {
+    public ResponseEntity<Object> loginCustomerData(UserDto userDto) {
         try {
-            Optional<Customer> optionalCustomer = customerRepository.findByUsername(customerDto.getUsername());
+            Optional<User> optionalCustomer = userRepository.findByEmail(userDto.getEmail());
             if (optionalCustomer.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
             }
 
-            Customer customer = optionalCustomer.get();
+            User user = optionalCustomer.get();
 
             // Check if password matches
-            if (!passwordEncoder.matches(customerDto.getPassword(), customer.getPassword())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
             }
 
             // Generate token
-            String token = jwtUtil.generateTokenForCustomer(customer);
+            String token = jwtUtil.generateTokenForCustomer(user);
 
             // Build response
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
-            response.put("username", customer.getUsername());
-            response.put("contactNumber", customer.getContactNumber());
+            response.put("email", user.getEmail());
+            response.put("contactNumber", user.getContactNumber());
 
             return ResponseEntity.ok(response);
 

@@ -1,15 +1,14 @@
 package com.hiranwj.salonsync.service.impl;
 
-import com.hiranwj.salonsync.dto.AdminDto;
-import com.hiranwj.salonsync.model.Admin;
+import com.hiranwj.salonsync.dto.UserDto;
+import com.hiranwj.salonsync.model.User;
 import com.hiranwj.salonsync.model.util.JwtUtil;
-import com.hiranwj.salonsync.repository.AdminRepository;
+import com.hiranwj.salonsync.repository.UserRepository;
 import com.hiranwj.salonsync.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,31 +21,30 @@ import java.util.Optional;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
     @Override
-    public ResponseEntity<Object> insertAdminData(AdminDto adminDto) {
+    public ResponseEntity<Object> insertAdminData(UserDto userDto) {
 
         try {
-            Optional<Admin> existingAdmin = adminRepository.findByUsername(adminDto.getUsername());
+            Optional<User> existingAdmin = userRepository.findByEmail(userDto.getEmail());
             if (existingAdmin.isPresent()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Admin with this Username already exists.");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Admin with this email already exists.");
             }
-            Admin admin = new Admin();
-            admin.setUsername(adminDto.getUsername());
-            admin.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-            admin.setContactNumber(adminDto.getContactNumber());
-            admin.setCreatedAt((int) (System.currentTimeMillis() / 1000));
-            adminRepository.save(admin);
+            User user = new User();
+            user.setName(userDto.getName());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setContactNumber(userDto.getContactNumber());
+            user.setEmail(userDto.getEmail());
+            user.setRole(userDto.getRole());
+            user.setCreatedAt((int) (System.currentTimeMillis() / 1000));
+            userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("Admin saved successfully");
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());
@@ -55,28 +53,28 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseEntity<Object> loginAdminData(AdminDto adminDto) {
+    public ResponseEntity<Object> loginAdminData(UserDto userDto) {
         try {
-            Optional<Admin> optionalAdmin = adminRepository.findByUsername(adminDto.getUsername());
+            Optional<User> optionalAdmin = userRepository.findByEmail(userDto.getEmail());
             if (optionalAdmin.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
             }
 
-            Admin admin = optionalAdmin.get();
+            User user = optionalAdmin.get();
 
             // Check if password matches
-            if (!passwordEncoder.matches(adminDto.getPassword(), admin.getPassword())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
             }
 
             // Generate token
-            String token = jwtUtil.generateTokenForAdmin(admin);
+            String token = jwtUtil.generateTokenForAdmin(user);
 
             // Build response
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
-            response.put("username", admin.getUsername());
-            response.put("contactNumber", admin.getContactNumber());
+            response.put("email", user.getEmail());
+            response.put("contactNumber", user.getContactNumber());
 
             return ResponseEntity.ok(response);
 

@@ -1,7 +1,6 @@
 package com.hiranwj.salonsync.model.util;
-import com.hiranwj.salonsync.model.Admin;
 
-import com.hiranwj.salonsync.model.Customer;
+import com.hiranwj.salonsync.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,10 +30,10 @@ public class JwtUtil {
     }
 
     // Generate token for admin
-    public String generateTokenForAdmin(Admin admin) {
+    public String generateTokenForAdmin(User user) {
         return Jwts.builder()
-                .setSubject(admin.getUsername())
-                .claim("contactNumber", admin.getContactNumber())
+                .setSubject(user.getEmail())
+                .claim("contactNumber", user.getContactNumber())
                 .claim("role", "ADMIN")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -42,10 +41,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateTokenForCustomer(Customer customer) {
+    public String generateTokenForCustomer(User user) {
         return Jwts.builder()
-                .setSubject(customer.getUsername())
-                .claim("contactNumber", customer.getContactNumber())
+                .setSubject(user.getEmail())
+                .claim("contactNumber", user.getContactNumber())
                 .claim("role", "CUSTOMER")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

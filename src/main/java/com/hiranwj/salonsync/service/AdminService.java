@@ -1,10 +1,10 @@
 package com.hiranwj.salonsync.service;
 
-import com.hiranwj.salonsync.dto.AdminDto;
+import com.hiranwj.salonsync.dto.UserDto;
 import org.springframework.http.ResponseEntity;
 
 public interface AdminService {
-    ResponseEntity<Object> insertAdminData(AdminDto adminDto);
+    ResponseEntity<Object> insertAdminData(UserDto userDto);
 
-    ResponseEntity<Object> loginAdminData(AdminDto adminDto);
+    ResponseEntity<Object> loginAdminData(UserDto userDto);
 }

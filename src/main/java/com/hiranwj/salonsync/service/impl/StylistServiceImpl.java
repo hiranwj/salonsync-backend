@@ -2,7 +2,6 @@ package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.StylistDto;
 import com.hiranwj.salonsync.model.Stylist;
-import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.repository.StylistRepository;
 import com.hiranwj.salonsync.service.StylistService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class StylistServiceImpl implements StylistService {
+
     @Autowired
     private StylistRepository stylistRepository;
 
@@ -113,7 +113,6 @@ public class StylistServiceImpl implements StylistService {
 
             Stylist existingStylist = optionalStylist.get();
 
-            // Update stylist details except createdAt (createdBy in DTO)
             existingStylist.setFirstName(stylistDto.getFirstName());
             existingStylist.setLastName(stylistDto.getLastName());
             existingStylist.setSpecialization(stylistDto.getSpecialization());
