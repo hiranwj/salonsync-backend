@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppointmentDtoResponse {
+public class AppointmentResponseDto {
     private Integer id;
     private String customerName;
     private String contactNumber;

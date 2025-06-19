@@ -1,7 +1,7 @@
 package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.AppointmentDto;
-import com.hiranwj.salonsync.dto.AppointmentDtoResponse;
+import com.hiranwj.salonsync.dto.AppointmentResponseDto;
 import com.hiranwj.salonsync.dto.AppointmentStatusDto;
 import com.hiranwj.salonsync.model.Appointment;
 import com.hiranwj.salonsync.repository.AppointmentRepository;
@@ -69,8 +69,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No appointments found.");
             }
 
-            List<AppointmentDtoResponse> appointmentDtoList = appointmentList.stream()
-                    .map(appointment -> new AppointmentDtoResponse(
+            List<AppointmentResponseDto> appointmentDtoList = appointmentList.stream()
+                    .map(appointment -> new AppointmentResponseDto(
                             appointment.getId(),
                             appointment.getCustomerName(),
                             appointment.getContactNumber(),
@@ -141,8 +141,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No appointments found for the user.");
             }
 
-            List<AppointmentDtoResponse> appointmentDtoList = appointmentList.stream()
-                    .map(appointment -> new AppointmentDtoResponse(
+            List<AppointmentResponseDto> appointmentDtoList = appointmentList.stream()
+                    .map(appointment -> new AppointmentResponseDto(
                             appointment.getId(),
                             appointment.getCustomerName(),
                             appointment.getContactNumber(),

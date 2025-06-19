@@ -50,4 +50,10 @@ public class UserController {
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
+    @GetMapping(value = "/users/role")
+    public ResponseEntity<Object> getUsersByRole(@Valid @RequestParam("role") String role) {
+        ResponseEntity<Object> res = userService.getUsersByRole(role);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
 }
