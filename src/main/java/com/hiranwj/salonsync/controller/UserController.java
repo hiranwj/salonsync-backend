@@ -1,13 +1,11 @@
 package com.hiranwj.salonsync.controller;
 
+import com.hiranwj.salonsync.dto.UserUpdateDto;
 import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,5 +21,12 @@ public class UserController {
         ResponseEntity<Object> res = userService.getUserProfileById(id);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
+
+    @PutMapping(value = "/users")
+    public ResponseEntity<Object> updateUserProfile(@Valid @RequestParam("id") Integer id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
+        ResponseEntity<Object> res = userService.updateUserProfile(id, userUpdateDto);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
 
 }
