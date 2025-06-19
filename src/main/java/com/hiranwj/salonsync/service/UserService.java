@@ -14,4 +14,6 @@ public interface UserService {
     ResponseEntity<Object> updateUserPassword(Integer userId, UserPasswordUpdateDto passwordUpdateDto);
 
     ResponseEntity<Object> updateUserRole(Integer userId, UserRoleUpdateDto userRoleUpdateDto);
+
+    ResponseEntity<Object> deleteUserAccount(Integer userId);
 }

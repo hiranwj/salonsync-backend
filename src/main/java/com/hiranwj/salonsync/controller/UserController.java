@@ -38,10 +38,15 @@ public class UserController {
     }
 
     @PutMapping(value = "/users/role")
-//    @PreAuthorize("hasAuthority('ADMIN')") // Optional: Role-based security if you are using Spring Security
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> updateUserRole(@Valid @RequestParam("id") Integer id, @Valid @RequestBody UserRoleUpdateDto userRoleUpdateDto) {
         ResponseEntity<Object> res = userService.updateUserRole(id, userRoleUpdateDto);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
+    @DeleteMapping(value = "/users")
+    public ResponseEntity<Object> deleteUserAccount(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = userService.deleteUserAccount(id);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
