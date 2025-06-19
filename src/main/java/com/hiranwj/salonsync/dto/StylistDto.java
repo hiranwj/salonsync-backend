@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StylistDto {
-    private String firstName;
-    private String lastName;
+    private String name;
     private String specialization;
     private String contactNumber;
     private String email;

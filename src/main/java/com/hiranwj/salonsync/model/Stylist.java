@@ -20,10 +20,7 @@ public class Stylist {
     private Integer id;
 
     @NotBlank(message = "First name is mandatory")
-    private String firstName;
-
-    @NotBlank(message = "Last name is mandatory")
-    private String lastName;
+    private String name;
 
     private String specialization;
 

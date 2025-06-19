@@ -30,8 +30,7 @@ public class StylistServiceImpl implements StylistService {
             }
 
             Stylist stylist = new Stylist();
-            stylist.setFirstName(stylistDto.getFirstName());
-            stylist.setLastName(stylistDto.getLastName());
+            stylist.setName(stylistDto.getName());
             stylist.setSpecialization(stylistDto.getSpecialization());
             stylist.setContactNumber(stylistDto.getContactNumber());
             stylist.setEmail(stylistDto.getEmail());
@@ -58,8 +57,7 @@ public class StylistServiceImpl implements StylistService {
 
             List<StylistDto> stylistDtoList = stylistList.stream()
                     .map(stylist -> new StylistDto(
-                            stylist.getFirstName(),
-                            stylist.getLastName(),
+                            stylist.getName(),
                             stylist.getSpecialization(),
                             stylist.getContactNumber(),
                             stylist.getEmail(),
@@ -86,8 +84,7 @@ public class StylistServiceImpl implements StylistService {
 
             Stylist stylist = optionalStylist.get();
             StylistDto stylistDto = new StylistDto(
-                    stylist.getFirstName(),
-                    stylist.getLastName(),
+                    stylist.getName(),
                     stylist.getSpecialization(),
                     stylist.getContactNumber(),
                     stylist.getEmail(),
@@ -113,8 +110,7 @@ public class StylistServiceImpl implements StylistService {
 
             Stylist existingStylist = optionalStylist.get();
 
-            existingStylist.setFirstName(stylistDto.getFirstName());
-            existingStylist.setLastName(stylistDto.getLastName());
+            existingStylist.setName(stylistDto.getName());
             existingStylist.setSpecialization(stylistDto.getSpecialization());
             existingStylist.setContactNumber(stylistDto.getContactNumber());
             existingStylist.setEmail(stylistDto.getEmail());
@@ -122,8 +118,7 @@ public class StylistServiceImpl implements StylistService {
             stylistRepository.save(existingStylist);
 
             StylistDto updatedStylistDto = new StylistDto(
-                    existingStylist.getFirstName(),
-                    existingStylist.getLastName(),
+                    existingStylist.getName(),
                     existingStylist.getSpecialization(),
                     existingStylist.getContactNumber(),
                     existingStylist.getEmail(),
