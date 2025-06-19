@@ -2,6 +2,7 @@ package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.UserDto;
 import com.hiranwj.salonsync.dto.UserPasswordUpdateDto;
+import com.hiranwj.salonsync.dto.UserRoleUpdateDto;
 import com.hiranwj.salonsync.dto.UserUpdateDto;
 import com.hiranwj.salonsync.model.User;
 import com.hiranwj.salonsync.repository.UserRepository;
@@ -98,6 +99,34 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
 
             return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully.");
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> updateUserRole(Integer userId, UserRoleUpdateDto userRoleUpdateDto) {
+        try {
+            Optional<User> userOptional = userRepository.findById(userId);
+
+            if (userOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            }
+
+            User user = userOptional.get();
+
+            // Validate the role
+            String newRole = userRoleUpdateDto.getRole().toUpperCase();
+            if (!newRole.equals("ADMIN") && !newRole.equals("CUSTOMER") && !newRole.equals("STAFF")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid role. Allowed roles: ADMIN, CUSTOMER, STAFF.");
+            }
+
+            user.setRole(newRole);
+            userRepository.save(user);
+
+            return ResponseEntity.status(HttpStatus.OK).body("User role updated successfully to: " + newRole);
 
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());
