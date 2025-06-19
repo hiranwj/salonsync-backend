@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
@@ -26,6 +27,7 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password is mandatory")
+    @Size(min = 6, message = "New password must be at least 6 characters long")
     private String password;
 
     @NotBlank(message = "Role is mandatory")

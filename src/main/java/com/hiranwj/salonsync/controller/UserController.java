@@ -1,5 +1,6 @@
 package com.hiranwj.salonsync.controller;
 
+import com.hiranwj.salonsync.dto.UserPasswordUpdateDto;
 import com.hiranwj.salonsync.dto.UserUpdateDto;
 import com.hiranwj.salonsync.model.util.ResponseHandler;
 import com.hiranwj.salonsync.service.UserService;
@@ -25,6 +26,12 @@ public class UserController {
     @PutMapping(value = "/users")
     public ResponseEntity<Object> updateUserProfile(@Valid @RequestParam("id") Integer id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
         ResponseEntity<Object> res = userService.updateUserProfile(id, userUpdateDto);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
+    @PutMapping(value = "/users/password")
+    public ResponseEntity<Object> updateUserPassword(@Valid @RequestParam("id") Integer id, @Valid @RequestBody UserPasswordUpdateDto passwordUpdateDto) {
+        ResponseEntity<Object> res = userService.updateUserPassword(id, passwordUpdateDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
