@@ -72,6 +72,7 @@ public class AdminServiceImpl implements AdminService {
 
             // Build response
             Map<String, Object> response = new HashMap<>();
+            response.put("id", user.getId());
             response.put("token", token);
             response.put("email", user.getEmail());
             response.put("contactNumber", user.getContactNumber());
