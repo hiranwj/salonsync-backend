@@ -15,4 +15,5 @@ public class AppointmentDto {
     private String appointmentTime;
     private Integer stylistId;
     private Integer createdBy;
+    private String note;
 }

@@ -57,6 +57,7 @@ public class StylistServiceImpl implements StylistService {
 
             List<StylistDto> stylistDtoList = stylistList.stream()
                     .map(stylist -> new StylistDto(
+                            stylist.getId(),
                             stylist.getName(),
                             stylist.getSpecialization(),
                             stylist.getContactNumber(),
@@ -84,6 +85,7 @@ public class StylistServiceImpl implements StylistService {
 
             Stylist stylist = optionalStylist.get();
             StylistDto stylistDto = new StylistDto(
+                    stylist.getId(),
                     stylist.getName(),
                     stylist.getSpecialization(),
                     stylist.getContactNumber(),
@@ -118,11 +120,12 @@ public class StylistServiceImpl implements StylistService {
             stylistRepository.save(existingStylist);
 
             StylistDto updatedStylistDto = new StylistDto(
-                    existingStylist.getName(),
-                    existingStylist.getSpecialization(),
-                    existingStylist.getContactNumber(),
-                    existingStylist.getEmail(),
-                    existingStylist.getCreatedAt() // This will return the originally createdBy value
+                existingStylist.getId(),
+                existingStylist.getName(),
+                existingStylist.getSpecialization(),
+                existingStylist.getContactNumber(),
+                existingStylist.getEmail(),
+                existingStylist.getCreatedAt() // This will return the originally createdBy value
             );
 
             return ResponseEntity.status(HttpStatus.OK).body(updatedStylistDto);

@@ -32,6 +32,8 @@ public class Appointment {
     @NotBlank(message = "Appointment time is mandatory")
     private String appointmentTime;  // Store as String (HH:mm) or use LocalTime
 
+    private String note;
+
     private Integer stylistId;
 
     private Integer createdBy;

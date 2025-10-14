@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StylistDto {
+    private Integer id;
     private String name;
     private String specialization;
     private String contactNumber;
