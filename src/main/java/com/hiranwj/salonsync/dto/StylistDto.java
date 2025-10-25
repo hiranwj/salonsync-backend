@@ -13,5 +13,6 @@ public class StylistDto {
     private String specialization;
     private String contactNumber;
     private String email;
+    private String gender;
     private Integer createdBy;
 }

@@ -30,6 +30,9 @@ public class Stylist {
     @Email(message = "Invalid email format")
     private String email;
 
+    @NotBlank(message = "Gender is mandatory")
+    private String gender;
+
     private Integer createdAt;
 }
 

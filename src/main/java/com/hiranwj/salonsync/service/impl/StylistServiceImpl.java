@@ -34,6 +34,7 @@ public class StylistServiceImpl implements StylistService {
             stylist.setSpecialization(stylistDto.getSpecialization());
             stylist.setContactNumber(stylistDto.getContactNumber());
             stylist.setEmail(stylistDto.getEmail());
+            stylist.setGender(stylistDto.getGender());
             stylist.setCreatedAt((int) (System.currentTimeMillis() / 1000));
 
             stylistRepository.save(stylist);
@@ -62,6 +63,7 @@ public class StylistServiceImpl implements StylistService {
                             stylist.getSpecialization(),
                             stylist.getContactNumber(),
                             stylist.getEmail(),
+                            stylist.getGender(),
                             stylist.getCreatedAt()
                     ))
                     .collect(Collectors.toList());
@@ -90,6 +92,7 @@ public class StylistServiceImpl implements StylistService {
                     stylist.getSpecialization(),
                     stylist.getContactNumber(),
                     stylist.getEmail(),
+                    stylist.getGender(),
                     stylist.getCreatedAt()
             );
 
@@ -116,6 +119,7 @@ public class StylistServiceImpl implements StylistService {
             existingStylist.setSpecialization(stylistDto.getSpecialization());
             existingStylist.setContactNumber(stylistDto.getContactNumber());
             existingStylist.setEmail(stylistDto.getEmail());
+            existingStylist.setGender(stylistDto.getGender());
 
             stylistRepository.save(existingStylist);
 
@@ -125,6 +129,7 @@ public class StylistServiceImpl implements StylistService {
                 existingStylist.getSpecialization(),
                 existingStylist.getContactNumber(),
                 existingStylist.getEmail(),
+                existingStylist.getGender(),
                 existingStylist.getCreatedAt() // This will return the originally createdBy value
             );
 
