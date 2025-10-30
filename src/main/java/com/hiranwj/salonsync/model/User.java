@@ -33,6 +33,9 @@ public class User {
     @NotBlank(message = "Role is mandatory")
     private String role; // Example: ADMIN, STAFF, USER
 
+    @NotBlank(message = "Gender is mandatory")
+    private String gender; // Example: Male, Female, Other
+
     private String contactNumber;
 
     private Integer createdAt;

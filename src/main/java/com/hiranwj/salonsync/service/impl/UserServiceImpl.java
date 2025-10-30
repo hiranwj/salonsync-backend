@@ -1,6 +1,7 @@
 package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.*;
+import com.hiranwj.salonsync.model.Stylist;
 import com.hiranwj.salonsync.model.User;
 import com.hiranwj.salonsync.repository.UserRepository;
 import com.hiranwj.salonsync.service.UserService;
@@ -45,6 +46,33 @@ public class UserServiceImpl implements UserService {
             userDto.setCreatedAt(user.getCreatedAt());
 
             return ResponseEntity.status(HttpStatus.OK).body(userDto);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> insertUserData(UserDto userDto) {
+        try {
+            Optional<User> existingUser = userRepository.findByEmail(userDto.getEmail());
+            if (existingUser.isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("User with this email already exists.");
+            }
+
+            User user = new User();
+            user.setName(userDto.getName());
+            user.setEmail(userDto.getEmail());
+            user.setContactNumber(userDto.getContactNumber());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setRole(userDto.getRole());
+            user.setGender(userDto.getGender());
+            user.setCreatedAt((int) (System.currentTimeMillis() / 1000));
+
+            userRepository.save(user);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
 
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());

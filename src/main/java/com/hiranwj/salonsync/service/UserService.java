@@ -1,5 +1,6 @@
 package com.hiranwj.salonsync.service;
 
+import com.hiranwj.salonsync.dto.UserDto;
 import com.hiranwj.salonsync.dto.UserPasswordUpdateDto;
 import com.hiranwj.salonsync.dto.UserRoleUpdateDto;
 import com.hiranwj.salonsync.dto.UserUpdateDto;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
 
     ResponseEntity<Object> getUserProfileById(Integer userId);
+
+    ResponseEntity<Object> insertUserData(UserDto userDto);
 
     ResponseEntity<Object> updateUserProfile(Integer userId, UserUpdateDto userUpdateDto);
 

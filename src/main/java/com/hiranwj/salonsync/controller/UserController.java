@@ -1,5 +1,6 @@
 package com.hiranwj.salonsync.controller;
 
+import com.hiranwj.salonsync.dto.UserDto;
 import com.hiranwj.salonsync.dto.UserPasswordUpdateDto;
 import com.hiranwj.salonsync.dto.UserRoleUpdateDto;
 import com.hiranwj.salonsync.dto.UserUpdateDto;
@@ -22,6 +23,12 @@ public class UserController {
     @GetMapping(value = "/users")
     public ResponseEntity<Object> getUserProfile(@Valid @RequestParam("id") Integer id) {
         ResponseEntity<Object> res = userService.getUserProfileById(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
+    @PostMapping(value = "/userData")
+    public ResponseEntity<Object> insertUserData(@Valid @RequestBody UserDto userDto) {
+        ResponseEntity<Object> res = userService.insertUserData(userDto);
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 

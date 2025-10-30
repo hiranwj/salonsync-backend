@@ -74,6 +74,8 @@ public class SecurityConfig {
         log.info("inside securityFilterChain method:");
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/userData")).permitAll()
+
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylist")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/users/**")).permitAll()
@@ -82,6 +84,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/schedule/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/feedback/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/reports/summary")).permitAll()
+
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/feedbacksData", "GET")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylistData", "POST")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/stylistData", "GET")).permitAll()

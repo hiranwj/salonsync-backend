@@ -74,7 +74,9 @@ public class CustomerServiceImpl implements CustomerService {
             response.put("id", user.getId());
             response.put("token", token);
             response.put("email", user.getEmail());
+            response.put("name", user.getName());
             response.put("contactNumber", user.getContactNumber());
+            response.put("role", user.getRole());
 
             return ResponseEntity.ok(response);
 
