@@ -43,7 +43,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             appointment.setCustomerName(appointmentDto.getCustomerName());
             appointment.setContactNumber(appointmentDto.getContactNumber());
-            appointment.setServiceType(appointmentDto.getServiceType());
+            // Convert list to comma-separated string before saving
+            appointment.setServiceType(String.join(",", appointmentDto.getServiceType()));
+            appointment.setStylistGender(appointmentDto.getStylistGender());
             appointment.setAppointmentDate(appointmentDto.getAppointmentDate());
             appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
             appointment.setNote(appointmentDto.getNote());

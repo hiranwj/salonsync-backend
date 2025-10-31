@@ -3,6 +3,7 @@ package com.hiranwj.salonsync.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -10,7 +11,8 @@ import lombok.NoArgsConstructor;
 public class AppointmentDto {
     private String customerName;
     private String contactNumber;
-    private String serviceType;
+    private List<String> serviceType;
+    private String stylistGender;
     private String appointmentDate;
     private String appointmentTime;
     private Integer stylistId;

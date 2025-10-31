@@ -26,6 +26,8 @@ public class Appointment {
     @NotBlank(message = "Service type is mandatory")
     private String serviceType;
 
+    private String stylistGender;
+
     @NotBlank(message = "Appointment date is mandatory")
     private String appointmentDate;  // Store as String (YYYY-MM-DD) or use LocalDate
 
