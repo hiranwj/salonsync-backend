@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class StylistDto {
     private Integer id;
     private String name;
-    private String specialization;
+    private List<String> specialization;
     private String contactNumber;
     private String email;
     private String gender;

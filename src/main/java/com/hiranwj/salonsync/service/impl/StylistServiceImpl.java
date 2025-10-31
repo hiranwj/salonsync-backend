@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +33,7 @@ public class StylistServiceImpl implements StylistService {
 
             Stylist stylist = new Stylist();
             stylist.setName(stylistDto.getName());
-            stylist.setSpecialization(stylistDto.getSpecialization());
+            stylist.setSpecialization(String.join(",", stylistDto.getSpecialization()));
             stylist.setContactNumber(stylistDto.getContactNumber());
             stylist.setEmail(stylistDto.getEmail());
             stylist.setGender(stylistDto.getGender());
@@ -60,7 +62,9 @@ public class StylistServiceImpl implements StylistService {
                     .map(stylist -> new StylistDto(
                             stylist.getId(),
                             stylist.getName(),
-                            stylist.getSpecialization(),
+                            stylist.getSpecialization() != null && !stylist.getSpecialization().isEmpty()
+                                    ? Arrays.asList(stylist.getSpecialization().split(","))
+                                    : new ArrayList<>(),
                             stylist.getContactNumber(),
                             stylist.getEmail(),
                             stylist.getGender(),
@@ -89,7 +93,9 @@ public class StylistServiceImpl implements StylistService {
             StylistDto stylistDto = new StylistDto(
                     stylist.getId(),
                     stylist.getName(),
-                    stylist.getSpecialization(),
+                    stylist.getSpecialization() != null && !stylist.getSpecialization().isEmpty()
+                            ? Arrays.asList(stylist.getSpecialization().split(","))
+                            : new ArrayList<>(),
                     stylist.getContactNumber(),
                     stylist.getEmail(),
                     stylist.getGender(),
@@ -116,7 +122,12 @@ public class StylistServiceImpl implements StylistService {
             Stylist existingStylist = optionalStylist.get();
 
             existingStylist.setName(stylistDto.getName());
-            existingStylist.setSpecialization(stylistDto.getSpecialization());
+            // Convert List<String> → comma-separated String before saving
+            if (stylistDto.getSpecialization() != null && !stylistDto.getSpecialization().isEmpty()) {
+                existingStylist.setSpecialization(String.join(",", stylistDto.getSpecialization()));
+            } else {
+                existingStylist.setSpecialization("");
+            }
             existingStylist.setContactNumber(stylistDto.getContactNumber());
             existingStylist.setEmail(stylistDto.getEmail());
             existingStylist.setGender(stylistDto.getGender());
@@ -126,7 +137,9 @@ public class StylistServiceImpl implements StylistService {
             StylistDto updatedStylistDto = new StylistDto(
                 existingStylist.getId(),
                 existingStylist.getName(),
-                existingStylist.getSpecialization(),
+                existingStylist.getSpecialization() != null && !existingStylist.getSpecialization().isEmpty()
+                        ? Arrays.asList(existingStylist.getSpecialization().split(","))
+                        : new ArrayList<>(),
                 existingStylist.getContactNumber(),
                 existingStylist.getEmail(),
                 existingStylist.getGender(),
