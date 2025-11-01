@@ -1,6 +1,7 @@
 package com.hiranwj.salonsync.service.impl;
 
 import com.hiranwj.salonsync.dto.StylistDto;
+import com.hiranwj.salonsync.model.Appointment;
 import com.hiranwj.salonsync.model.Stylist;
 import com.hiranwj.salonsync.repository.StylistRepository;
 import com.hiranwj.salonsync.service.StylistService;
@@ -147,6 +148,25 @@ public class StylistServiceImpl implements StylistService {
             );
 
             return ResponseEntity.status(HttpStatus.OK).body(updatedStylistDto);
+
+        } catch (Exception e) {
+            log.error("Ex. message: {}", e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteStylistById(Integer id) {
+        try {
+            Optional<Stylist> optionalStylist = stylistRepository.findById(id);
+
+            if (!optionalStylist.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Stylist not found.");
+            }
+
+            stylistRepository.deleteById(id);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Stylist deleted successfully.");
 
         } catch (Exception e) {
             log.error("Ex. message: {}", e.getMessage());

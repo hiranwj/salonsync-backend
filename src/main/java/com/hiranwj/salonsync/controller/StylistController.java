@@ -42,4 +42,10 @@ public class StylistController {
         return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
     }
 
+    @DeleteMapping(value = "/stylist")
+    public ResponseEntity<Object> deleteStylistById(@Valid @RequestParam("id") Integer id) {
+        ResponseEntity<Object> res = stylistService.deleteStylistById(id);
+        return ResponseHandler.generateResponse(res.getStatusCode(), res.getBody());
+    }
+
 }

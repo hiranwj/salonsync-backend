@@ -11,4 +11,6 @@ public interface StylistService {
     ResponseEntity<Object> getStylistById(Integer id);
 
     ResponseEntity<Object> updateStylistById(Integer id, StylistDto stylistDto);
+
+    ResponseEntity<Object> deleteStylistById(Integer id);
 }
